@@ -365,6 +365,8 @@ RUN id -u $TENSORRT_SERVER_USER > /dev/null 2>&1 || \
 
 # libgoogle-glog0v5 is needed by caffe2 libraries.
 # libcurl is needed for GCS
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update && \
     if [ $(cat /etc/os-release | grep 'VERSION_ID="16.04"' | wc -l) -ne 0 ]; then \
         apt-get install -y --no-install-recommends \
@@ -384,6 +386,8 @@ RUN apt-get update && \
             libh2o0.13 \
             libh2o-evloop0.13 \
             libnuma1 \
+            libopencv-dev \
+            libopencv-core-dev \
             libwslay1 && \
     rm -rf /var/lib/apt/lists/*
 
